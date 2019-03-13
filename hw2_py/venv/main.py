@@ -28,10 +28,9 @@ def main():
         for i in data:
             cleantxt.append(i)
 
-    for articleword in cleantxt:
-        for stopword in stopwords:
-            if articleword == stopword:
-                cleantxt.pop(articleword)
+    for word in list(cleantxt):
+        if word in stopwords:
+            cleantxt.remove(word)
 
     # Test if all stop words have been removed.
     for j in cleantxt:
