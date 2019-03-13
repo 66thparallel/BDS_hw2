@@ -7,6 +7,7 @@ Classes:
 
 """
 
+import string
 import logging
 import unittest
 
@@ -21,20 +22,23 @@ def main():
         stopwords = g.read().splitlines()
 
     # Contains text without stop words
-    cleantxt = []
+    cleantext = []
 
     for item in article:
         data = item.split()
         for i in data:
-            cleantxt.append(i)
+            cleantext.append(i)
 
-    for word in list(cleantxt):
+    for word in list(cleantext):
         if word in stopwords:
-            cleantxt.remove(word)
+            cleantext.remove(word)
+
+    # Remove punctuation from words and remove empty strings
+    cleantext = [''.join(c for c in s if c not in string.punctuation) for s in cleantext]
+    cleantext = [s for s in cleantext if s]
 
     # Test if all stop words have been removed.
-    for j in cleantxt:
-        print(j)
+    print(cleantext)
 
 main()
 
