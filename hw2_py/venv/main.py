@@ -41,13 +41,13 @@ def main():
 
     # Lemmatize the text (stemming gave weird results)
     lemma_text = []
-    lemma = WordNetLemmatizer()
+    lemmatizer = WordNetLemmatizer()
 
     for word in list(cleantext):
-        new_word = lemma.lemmatize(word)
+        new_word = lemmatizer.lemmatize(word)
         lemma_text.append(new_word)
 
-    # print(lemma_text)
+    print(lemma_text)
 
 main()
 
