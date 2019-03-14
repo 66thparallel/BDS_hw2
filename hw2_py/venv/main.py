@@ -1,9 +1,10 @@
-#!/usr/bin/python3.7
+#!/usr/bin/python3
 
 """
 Authors Jane Liu and Meng Li
 
 Classes:
+    main: Loops over every command in input file and calls relevant functions
 
 """
 import string
@@ -11,6 +12,8 @@ import logging
 import unittest
 import nltk
 from nltk.stem import WordNetLemmatizer
+from hw2_classes import *
+
 
 def main():
 
@@ -21,14 +24,9 @@ def main():
     with open('src/stopwords.txt', 'r') as g:
         stopwords = g.read().splitlines()
 
-    # Contains text without stop words
-    cleantext = []
-
-    # Tokenize the text
-    for item in article:
-        data = item.split()
-        for i in data:
-            cleantext.append(i)
+    # Tokenize the text file
+    temptext = Tokenizer(article)
+    cleantext = temptext.tokenize()
 
     # Remove stop words
     for word in list(cleantext):
@@ -47,7 +45,14 @@ def main():
         new_word = lemmatizer.lemmatize(word)
         lemma_text.append(new_word)
 
+    # Check to see if text has been lemmatized
     print(lemma_text)
+
+    # NER
+
+    # Sliding windows
+
+
 
 main()
 
