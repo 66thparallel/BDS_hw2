@@ -7,6 +7,7 @@ main.py uses several python libraries:
 1. nltk
 2. spacy
 3. mathplotlib
+4. gensim
 
 $ pip install -U <name of library>
 
@@ -21,3 +22,4 @@ https://www.nltk.org/install.html
 https://spacy.io/usage/
 https://spacy.io/usage/models
 https://matplotlib.org/index.html
+https://pypi.org/project/gensim/
