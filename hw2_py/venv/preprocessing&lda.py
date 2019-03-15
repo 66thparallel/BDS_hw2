@@ -9,7 +9,7 @@ Classes:
 """
 
 
-# In[ ]:
+# article list:
 
 arc11='/Users/limeng/Downloads/dataset_3/data/C1/article01.txt'
 arc12='/Users/limeng/Downloads/dataset_3/data/C1/article02.txt'
@@ -39,7 +39,7 @@ arclist=[arc11,arc12,arc13,arc14,arc15,arc16,arc17,arc18,arc21,arc22,arc23,arc24
          arc34,arc35,arc36,arc37,arc38]
 
 
-# In[154]:
+# preprocessing:
 
 def preprocessing(txt_name):
     import string
@@ -48,13 +48,13 @@ def preprocessing(txt_name):
     import nltk
     from nltk.stem import WordNetLemmatizer
 
-    # Read file and store in a list
-    texts=[]
 
+    # Read stopwords
     with open('/Users/limeng/Downloads/stop_words.txt', 'r') as g:
         stopwords = g.read().splitlines()
     
-        
+    # Read file and store in a list
+    texts=[]
     with open(txt_name, 'r') as f:
         sentence = f.readlines()
         # clean and tokenize document string
@@ -76,7 +76,7 @@ def preprocessing(txt_name):
 
 
 
-# In[175]:
+# NER(not work well):
 
 '''def ner(arc):
     with open('/Users/limeng/Downloads/stop_words.txt', 'r') as g:
@@ -113,7 +113,7 @@ def preprocessing(txt_name):
     return (pp.pprint(en))'''
 
 
-# In[179]:
+# LDA function:
 
 def lda(arc):
     from gensim import corpora
