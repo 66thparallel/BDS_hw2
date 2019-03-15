@@ -79,25 +79,6 @@ def preprocessing(txt_name):
 # NER(not work well):
 
 '''def ner(arc):
-    with open('/Users/limeng/Downloads/stop_words.txt', 'r') as g:
-        stopwords = g.read().splitlines()
-    
-        
-    with open(arc, 'r') as f:
-        sentence = f.readlines()
-        # clean and tokenize document string
-        for s in sentence:
-            raw = s.replace('\n',' ')
-            tokens = raw.split()
-
-            # remove stop words from tokens
-            stopped_tokens = [i for i in tokens if not i in stopwords]
-    
-            # stem tokens
-            stemmed_tokens = [WordNetLemmatizer().lemmatize(i) for i in stopped_tokens]
-    
-            # add tokens to list
-            texts.append(stemmed_tokens)
     en={}
     import pprint
     for sentences in texts:
