@@ -130,17 +130,6 @@ def lda(arc):
     return a
 
 
-# In[ ]:
-
-
-
-
-# In[180]:
-
-
-
-
-# In[ ]:
 
 
 
