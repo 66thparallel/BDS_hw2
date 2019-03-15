@@ -1,28 +1,37 @@
 #!/usr/bin/python3
-
 """
 Authors Jane Liu and Meng Li
 
 Classes:
     main: Loops over every command in input file and calls relevant functions
 
+Notes (delete before submitting!!):
+    Set up Preprocessor class. The Preprocessors.preprocess() function needs to remove stop words, tokenize,
+    lemmatize, perform NER, and sliding window. Separate LDA class.
+
 """
+
 import string
 import logging
 import unittest
+from collections import Counter
+
+import spacy
+from spacy import displacy
+import en_core_web_sm
+
 import nltk
+from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-from hw2_classes import *
+
+# Preprocessing textual data
+from preprocessor import *
 
 
 def main():
 
-    # Read file and store in a list
     with open('src/C1/article01.txt', 'r') as f:
         article = f.read().splitlines()
-
-    with open('src/stopwords.txt', 'r') as g:
-        stopwords = g.read().splitlines()
 
     # Tokenize the text file
     temptext = Tokenizer(article)
@@ -30,14 +39,14 @@ def main():
 
     # Remove stop words
     for word in list(cleantext):
-        if word in stopwords:
+        if word in stopwords.words('english'):
             cleantext.remove(word)
 
     # Remove punctuation and empty strings
     cleantext = [''.join(c for c in s if c not in string.punctuation) for s in cleantext]
     cleantext = [s for s in cleantext if s]
 
-    # Lemmatize the text (stemming gave weird results)
+    # Lemmatize the text
     lemma_text = []
     lemmatizer = WordNetLemmatizer()
 
@@ -45,13 +54,21 @@ def main():
         new_word = lemmatizer.lemmatize(word)
         lemma_text.append(new_word)
 
-    # Check to see if text has been lemmatized
-    print(lemma_text)
+    preprocessed_text = lemma_text
 
-    # NER
+    # Perform named-entity extraction
+    #nlp = en_core_web_sm.load()
+    #doc = nlp(' '.join(preprocessed_text))  # spaCy requires text to be in string form
+    #print([(X.text, X.label_) for X in doc.ents])
 
     # Sliding windows
 
+
+    # Determine the frequency distribution of topics
+    frequency = nltk.FreqDist(preprocessed_text)
+
+    for key, val in frequency.items():
+        print(str(key) + ':' + str(val))
 
 
 main()
