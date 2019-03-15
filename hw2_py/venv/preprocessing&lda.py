@@ -117,16 +117,14 @@ def preprocessing(txt_name):
 
 def lda(arc):
     from gensim import corpora
-    from nltk import sent_tokenize
     from gensim.models.ldamodel import LdaModel
-    from gensim.parsing.preprocessing import STOPWORDS
     import pprint
 
     dictionary = corpora.Dictionary(arc)
     corpus = [dictionary.doc2bow(text) for text in arc]
     ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=1, id2word = dictionary, passes=20)
     pp = pprint.PrettyPrinter()
-    a=pp.pprint(ldamodel.print_topics(num_words=10))
+    a=pp.pprint(ldamodel.print_topics(num_words=10)
     return a
 
 
