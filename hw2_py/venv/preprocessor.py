@@ -72,8 +72,17 @@ class Preprocessor:
         doc = nlp(' '.join(preprocessed_text))  # spaCy requires text to be in string form
 
         # print out named entities
+        ner_list = []
+
         for ent in doc.ents:
-            print(ent.text, ent.label_)
+            ner_list.append(ent.text)
+
+        for name in ner_list:
+            for word in name:
+                pass
+
+
+        return None
 
 '''
         # Sliding windows
@@ -85,5 +94,3 @@ class Preprocessor:
         #for key, val in frequency.items():
             print(str(key) + ':' + str(val))
 '''
-
-        return None
