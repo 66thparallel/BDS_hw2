@@ -9,6 +9,8 @@ Classes:
 
 import string
 import unittest
+import re
+from itertools import groupby
 
 import spacy
 from spacy import displacy
@@ -17,6 +19,7 @@ import en_core_web_sm
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from nltk.util import ngrams
 
 
 class Tokenizer:
@@ -58,19 +61,19 @@ class Preprocessor:
 
     def preprocess(self):
 
-        # tokenize the text file
+        # Tokenize the text file
         self._temptext = Tokenizer(self._article)
         self._cleantext = self._temptext.tokenize()
 
-        # remove punctuation and empty strings
+        # Remove punctuation and empty strings
         self._cleantext = [''.join(c for c in s if c not in string.punctuation) for s in self._cleantext]
         self._cleantext = [s for s in self._cleantext if s]
 
-        # remove stop words
+        # Remove stop words
         self._temptext = RemoveStopWords(self._cleantext)
         self._cleantext = self._temptext.removestopwords()
 
-        # lemmatize the text
+        # Lemmatize the text
         lemma_text = []
         lemmatizer = WordNetLemmatizer()
 
@@ -80,9 +83,9 @@ class Preprocessor:
 
         preprocessed_text = lemma_text
 
-        # apply NER to determine proper nouns, like "Microsoft Corporation"
+        # Apply NER to determine proper nouns, like "Microsoft Corporation"
         nlp = spacy.load('en_core_web_sm')
-        doc = nlp(' '.join(preprocessed_text))  # spaCy requires entire text to be in string form
+        doc = nlp(' '.join(preprocessed_text))  # spaCy requires input text to be in string form
 
         preprocessed_str = ""
 
@@ -90,13 +93,13 @@ class Preprocessor:
             temp = str(token.text) + ' '
             preprocessed_str += temp
 
-        # find all NER names and put into a list
+        # Find all NER names and put into a list
         ner_list = []
 
         for ent in doc.ents:
             ner_list.append(str(ent.text))
 
-        # find all compound NER names and put into a list
+        # Find all compound NER names and put into a list
         compound_ner = []
 
         for item in ner_list:
@@ -104,28 +107,37 @@ class Preprocessor:
             if len(temp) > 1:
                 compound_ner.append(item)
 
-        # remove NER compound words from preprocessed_str and add back into preprocessed_list
+        # Remove NER compound words from preprocessed_str and add back into preprocessed_list
         for name in compound_ner:
             if name in preprocessed_str:
                 preprocessed_str = preprocessed_str.replace(name, '')
 
-        preprocessed_list = preprocessed_str.split()
+        preprocessed_str += ' '.join(compound_ner)
 
-        preprocessed_list += compound_ner
+        # Generate 2-grams and 3-grams and output to the console a list of the n-grams that occur two or more times
+        # in the document. Shows n-grams and their frequency counts.
+        preprocessed_str = preprocessed_str.lower()
+        preprocessed_str = re.sub(r'[^a-zA-Z0-9\s]', ' ', preprocessed_str)
+        tokens = [token for token in preprocessed_str.split(' ') if token != '']
+        output2 = list(ngrams(tokens, 2))
+        output3 = list(ngrams(tokens, 3))
 
-        print(preprocessed_list)
+        ngram_list = []
+
+        for gram in output2:
+            if output2.count(gram) > 1:
+                temp2 = (gram, output2.count(gram))
+                ngram_list.append(temp2)
+
+
+        for gram in output3:
+            if output3.count(gram) > 1:
+                temp3 = (gram, output3.count(gram))
+                ngram_list.append(temp3)
+
+        ngram_list = list(set(ngram_list))
+
+        print(ngram_list)
+
 
         return None
-
-
-
-'''
-        # Sliding windows
-
-
-        # Determine the frequency distribution of topics
-        #frequency = nltk.FreqDist(preprocessed_text)
-
-        #for key, val in frequency.items():
-            print(str(key) + ':' + str(val))
-'''
