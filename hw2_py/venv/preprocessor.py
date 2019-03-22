@@ -8,7 +8,6 @@ Classes:
 """
 
 import string
-import logging
 import unittest
 
 import spacy
@@ -67,22 +66,48 @@ class Preprocessor:
 
         preprocessed_text = lemma_text
 
-        # Perform named-entity extraction - need to combine the names
+        # Applying NER to determine proper nouns, like "Microsoft Corporation"
         nlp = spacy.load('en_core_web_sm')
-        doc = nlp(' '.join(preprocessed_text))  # spaCy requires text to be in string form
+        doc = nlp(' '.join(preprocessed_text))  # spaCy requires entire text to be in string form
 
-        # print out named entities
+        preprocessed_str = ""
+
+        for token in doc:
+            temp = str(token.text) + ' '
+            preprocessed_str += temp
+
+        # find all NER names and put into a list
         ner_list = []
 
         for ent in doc.ents:
-            ner_list.append(ent.text)
+            ner_list.append(str(ent.text))
 
-        for name in ner_list:
-            for word in name:
-                pass
+        # find all compound NER names and put into a list
+        compound_ner = []
 
+        for item in ner_list:
+            temp = item.split()
+            if len(temp) > 1:
+                compound_ner.append(item)
+
+        # remove NER compound words from preprocessed_str
+        for name in compound_ner:
+            if name in preprocessed_str:
+                preprocessed_str = preprocessed_str.replace(name, '')
+
+        preprocessed_list = preprocessed_str.split()
+
+        preprocessed_list += compound_ner
+
+        print(preprocessed_list)
 
         return None
+
+
+
+
+
+
 
 '''
         # Sliding windows
