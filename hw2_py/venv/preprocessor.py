@@ -47,7 +47,6 @@ class RemoveStopWords:
             self._stopwords = g.read().splitlines()
         for word in self._stopwords:
             self._text = [value for value in self._text if value != word]
-            self._text = [value for value in self._text if value != word.capitalize()]
 
         return self._text
 
