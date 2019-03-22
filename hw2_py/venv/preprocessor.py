@@ -33,6 +33,21 @@ class Tokenizer:
 
         return self._tokenized_doc
 
+class RemoveStopWords:
+
+    def __init__(self, text):
+        self._text = text
+        self._stopwords = []
+
+    def removestopwords(self):
+        with open('src/stopwords.txt', 'r') as g:
+            self._stopwords = g.read().splitlines()
+        for word in self._stopwords:
+            self._text = [value for value in self._text if value != word]
+            self._text = [value for value in self._text if value != word.capitalize()]
+
+        return self._text
+
 
 class Preprocessor:
 
@@ -43,20 +58,19 @@ class Preprocessor:
 
     def preprocess(self):
 
-        # Tokenize the text file
+        # tokenize the text file
         self._temptext = Tokenizer(self._article)
         self._cleantext = self._temptext.tokenize()
 
-        # Remove stop words
-        for word in list(self._cleantext):
-            if word in stopwords.words('english'):
-                self._cleantext.remove(word)
-
-        # Remove punctuation and empty strings
+        # remove punctuation and empty strings
         self._cleantext = [''.join(c for c in s if c not in string.punctuation) for s in self._cleantext]
         self._cleantext = [s for s in self._cleantext if s]
 
-        # Lemmatize the text
+        # remove stop words
+        self._temptext = RemoveStopWords(self._cleantext)
+        self._cleantext = self._temptext.removestopwords()
+
+        # lemmatize the text
         lemma_text = []
         lemmatizer = WordNetLemmatizer()
 
@@ -66,7 +80,7 @@ class Preprocessor:
 
         preprocessed_text = lemma_text
 
-        # Applying NER to determine proper nouns, like "Microsoft Corporation"
+        # apply NER to determine proper nouns, like "Microsoft Corporation"
         nlp = spacy.load('en_core_web_sm')
         doc = nlp(' '.join(preprocessed_text))  # spaCy requires entire text to be in string form
 
@@ -102,10 +116,6 @@ class Preprocessor:
         print(preprocessed_list)
 
         return None
-
-
-
-
 
 
 
