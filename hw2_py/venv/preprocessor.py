@@ -104,7 +104,7 @@ class Preprocessor:
             if len(temp) > 1:
                 compound_ner.append(item)
 
-        # remove NER compound words from preprocessed_str
+        # remove NER compound words from preprocessed_str and add back into preprocessed_list
         for name in compound_ner:
             if name in preprocessed_str:
                 preprocessed_str = preprocessed_str.replace(name, '')
