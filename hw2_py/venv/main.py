@@ -19,14 +19,19 @@ from preprocessor import *
 
 def main():
 
-    with open('src/C1/article01.txt', 'r') as f:
-        article = f.read().splitlines()
+    with open('src/data.txt', 'r') as g:
+        file_list = g.read().split()
 
-    Prep = Preprocessor(article)
+        for filename in file_list:
 
-    topics = Prep.preprocess()
+            with open(filename, 'r') as f:
+                article = f.read().split()
 
-    print(topics)
+            Prep = Preprocessor(article)
+
+            topics = Prep.preprocess()
+
+            print(topics)
 
 
 main()

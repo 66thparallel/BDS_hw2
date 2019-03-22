@@ -26,15 +26,14 @@ class Tokenizer:
 
     def __init__(self, text):
         self._text = text
-        self._tokenized_doc = []
+        self._tokenized_text = []
 
     def tokenize(self):
-        for item in self._text:
-            data = item.split()
-            for i in data:
-                self._tokenized_doc.append(i)
+        # Remove punctuation and empty strings
+        self._tokenized_text = [''.join(c for c in s if c not in string.punctuation) for s in self._text]
+        self._tokenized_text = [s for s in self._tokenized_text if s]
 
-        return self._tokenized_doc
+        return self._tokenized_text
 
 class RemoveStopWords:
 
@@ -63,10 +62,6 @@ class Preprocessor:
         # Tokenize the text file
         self._temptext = Tokenizer(self._article)
         self._cleantext = self._temptext.tokenize()
-
-        # Remove punctuation and empty strings
-        self._cleantext = [''.join(c for c in s if c not in string.punctuation) for s in self._cleantext]
-        self._cleantext = [s for s in self._cleantext if s]
 
         # Remove stop words
         self._temptext = RemoveStopWords(self._cleantext)
@@ -135,8 +130,6 @@ class Preprocessor:
                 ngram_list.append(temp3)
 
         ngram_list = list(set(ngram_list))
-
-        print(ngram_list)
 
 
         return None
