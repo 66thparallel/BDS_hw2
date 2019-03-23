@@ -17,6 +17,9 @@ import unittest
 from preprocessor import *
 from ldapreprocessor import *
 from matrix import *
+from visiualization import *
+from evaluation import *
+from kmeans import *
 
 
 def main():
@@ -81,10 +84,13 @@ def main():
         for topic in dic_topic.get(elem):
             dic_topic[elem][topic]=dic_topic.get(elem).get(topic)*dic_topic2[topic]
     matrix2=pd.DataFrame.from_dict(dic_topic, orient='index')
+    #kmeans
     km=kmeans(3,matrix2)
     kmeansr=km.k_means()
+    #visualization
     gra=visiualization(kmeansr)
     gra.visual()
+    #evaluation
     ev=evaluation(kmeansr)
     ev.eva()
     return kmeansr
