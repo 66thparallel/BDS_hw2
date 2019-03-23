@@ -27,7 +27,7 @@ class LDATokenizer:
         self._text = text
         self._tokenized_doc = []
 
-    def tokenize(self):
+    def LDAtokenize(self):
         for item in self._text:
             data = item.split()
             for i in data:
@@ -44,11 +44,11 @@ class LDAPreprocessor:
         self._cleantext = []
         self._temptext = []
 
-    def preprocess(self):
+    def LDApreprocess(self):
 
         # Tokenize the text file
         self._temptext = LDATokenizer(self._article)
-        self._cleantext = self._temptext.tokenize()
+        self._cleantext = self._temptext.LDAtokenize()
 
         # Remove stop words
         with open('src/stopwords.txt', 'r') as g:
