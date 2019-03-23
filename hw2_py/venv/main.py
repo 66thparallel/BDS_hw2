@@ -19,6 +19,8 @@ from preprocessor import *
 
 def main():
 
+    corpus_topics = {}
+
     with open('src/data.txt', 'r') as g:
         file_list = g.read().split()
 
@@ -31,7 +33,13 @@ def main():
 
             topics = Prep.preprocess()
 
-            print(topics)
+            corpus_topics.update(topics)
+
+    Corpus = Topics(corpus_topics)
+
+    Corpus.generatetopics()
+
+    return None
 
 
 main()

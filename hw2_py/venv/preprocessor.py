@@ -3,14 +3,20 @@
 Authors Jane Liu and Meng Li
 
 Classes:
-    Tokenizer: Accepts a text file and outputs tokenized text.
+    Tokenizer: Accepts a list of words and outputs tokenized text.
+    RemoveStopWords: Accepts a list of tokens and removes stop words
+    Preprocessors: Calls Tokenizer, RemoveStopWords, and lemmatizes the text. Applies NER to find names and replaces
+        tokens with names. Determines 2-grams and 3-grams. Generates the top 20 topics sorted by frequency
+        and outputs results to the console and topics.txt.
 
 """
 
 import string
 import unittest
 import re
+import operator
 from itertools import groupby
+from collections import Counter
 
 import spacy
 from spacy import displacy
@@ -101,35 +107,81 @@ class Preprocessor:
             if len(temp) > 1:
                 compound_ner.append(item)
 
-        # Remove NER compound words from preprocessed_str and add back into preprocessed_list
+        # Remove tokens and replace them with NER compound words
         for name in compound_ner:
             if name in preprocessed_str:
                 preprocessed_str = preprocessed_str.replace(name, '')
 
-        preprocessed_str += ' '.join(compound_ner)
-
-        # Generate 2-grams and 3-grams and output to the console a list of the n-grams that occur two or more times
-        # in the document. Shows n-grams and their frequency counts.
-        preprocessed_str = preprocessed_str.lower()
-        preprocessed_str = re.sub(r'[^a-zA-Z0-9\s]', ' ', preprocessed_str)
-        tokens = [token for token in preprocessed_str.split(' ') if token != '']
+        # Generate 2-grams and 3-grams
+        prep_str = preprocessed_str.lower()
+        prep_str = re.sub(r'[^a-zA-Z0-9\s]', ' ', prep_str)
+        tokens = [token for token in prep_str.split(' ') if token != '']
         output2 = list(ngrams(tokens, 2))
         output3 = list(ngrams(tokens, 3))
 
         ngram_list = []
 
         for gram in output2:
-            if output2.count(gram) > 1:
+            if output2.count(gram) > 3:
                 temp2 = (gram, output2.count(gram))
                 ngram_list.append(temp2)
 
-
         for gram in output3:
-            if output3.count(gram) > 1:
+            if output3.count(gram) > 3:
                 temp3 = (gram, output3.count(gram))
                 ngram_list.append(temp3)
 
+        # Remove duplicates of n-gram tuples
         ngram_list = list(set(ngram_list))
 
+        # Remove tokens and replace with n-grams
+        ngram_dict = dict(ngram_list)
+        ngram_words = []
+        for item in ngram_dict.keys():
+            word = ' '.join(item)
+            count = ngram_dict[item]
+            if word in preprocessed_str:
+                preprocessed_str = preprocessed_str.replace(word, '')
+                preprocessed_str = preprocessed_str.replace(word.capitalize(), '')
+            while count > 0:
+                ngram_words.append(word)
+                count -= 1
+        preprocessed_list = preprocessed_str.split() + compound_ner + ngram_words
+
+        # Find the most frequently occuring individual words
+        word_freq = Counter(preprocessed_list)
+        common_words = word_freq.most_common(10)
+
+        # Combine the most frequently occuring words with most common n-grams
+        topics = dict(common_words)
+
+        return topics
+
+
+class Topics:
+
+    def __init__(self, topics):
+        self._topics = topics
+        self._results = {}
+
+    def generatetopics(self):
+        # Add the count of topics that appear in more than one document
+        for key, value in self._topics.items():
+            if key in self._results:
+                self._results[key] = self._results[key] + value
+            else:
+                self._results[key] = value
+
+        # Get the most frequent topics
+        topic_num = 20
+        self._results = dict(sorted(self._topics.items(), key=operator.itemgetter(1), reverse=True)[:topic_num])
+
+        with open('topics.txt', 'w') as f:
+            for item in self._results.keys():
+                f.write(str(item))
+                f.write(' ')
+                f.write(str(self._results[item]))
+                f.write('\n')
+                print(item, self._results[item])
 
         return None
