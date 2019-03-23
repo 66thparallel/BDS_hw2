@@ -88,7 +88,15 @@ class LDAPreprocessor:
     
     return topic
 
-
-
+class LDAtopics:
+    
+    def LDAtopic():
+    with open('Ltopics.txt', 'w') as f:
+            for item in self._results.keys():
+                f.write(str(item))
+                f.write(' ')
+                f.write(str(self._results[item]))
+                f.write('\n')
+                print(item, self._results[item])
 
 
