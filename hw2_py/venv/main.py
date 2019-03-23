@@ -15,7 +15,7 @@ import string
 import logging
 import unittest
 from preprocessor import *
-from LDApreprocessor import *
+from ldapreprocessor import *
 
 
 def main():
