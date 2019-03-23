@@ -59,6 +59,12 @@ def main():
             
     Ltopics=LDA(textlist)
     
+    ltopics=Ltopics.lda()
+    
+    ldatopic=LDAtopics(ltopics)
+    
+    ldatopic.Ltopics()
+    
             
     return None
 
