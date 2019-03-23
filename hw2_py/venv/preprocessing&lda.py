@@ -78,7 +78,7 @@ class LDA:
     def __init__(self, textlist):
         self._textlists = textlist
         
-    def LDA(self._textlists):
+    def LDA(self):
 
         dictionary = corpora.Dictionary(self._textlists)
         
