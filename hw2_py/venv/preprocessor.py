@@ -5,9 +5,9 @@ Authors Jane Liu and Meng Li
 Classes:
     Tokenizer: Accepts a list of words and outputs tokenized text.
     RemoveStopWords: Accepts a list of tokens and removes stop words
-    Preprocessors: Calls Tokenizer, RemoveStopWords, and lemmatizes the text. Applies NER to find names and replaces
-        tokens with names. Determines 2-grams and 3-grams. Generates the top 20 topics sorted by frequency
-        and outputs results to the console and topics.txt.
+    Preprocessors: Calls Tokenizer, RemoveStopWords, and lemmatizes the text. Applies NER to find proper nounds and
+        replaces individual tokens with proper nounds. Determines 2-grams and 3-grams. Generates topics sorted
+        by frequency and outputs results to the console and topics.txt.
 
 """
 
@@ -156,7 +156,6 @@ class Preprocessor:
         topics = dict(common_words)
 
         return topics
-
 
 class Topics:
 
