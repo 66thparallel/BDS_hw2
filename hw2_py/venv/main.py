@@ -81,8 +81,13 @@ def main():
         for topic in dic_topic.get(elem):
             dic_topic[elem][topic]=dic_topic.get(elem).get(topic)*dic_topic2[topic]
     matrix2=pd.DataFrame.from_dict(dic_topic, orient='index')
-            
-    return matrix2
+    km=kmeans(3,matrix2)
+    kmeansr=km.k_means()
+    gra=visiualization(kmeansr)
+    gra.visual()
+    ev=evaluation(kmeansr)
+    ev.eva()
+    return kmeansr
 
 
 main()
