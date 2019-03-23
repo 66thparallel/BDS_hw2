@@ -17,7 +17,6 @@ import gensim
 from gensim import corpora
 from gensim.models.ldamodel import LdaModel
 import pprint
-
 import nltk
 from nltk.stem import WordNetLemmatizer
 
@@ -52,6 +51,9 @@ class LDAPreprocessor:
         self._cleantext = self._temptext.tokenize()
 
         # Remove stop words
+        with open('src/stopwords.txt', 'r') as g:
+            stopwords = g.read().splitlines()   
+           
         for word in list(self._cleantext):
             if word in stopwords:
                 self._cleantext.remove(word)
@@ -67,19 +69,22 @@ class LDAPreprocessor:
         for word in list(self._cleantext):
             new_word = lemmatizer.lemmatize(word)
             lemma_text.append(new_word)
-        return lemma_text
 
 
 
-# LDA function:
+    # LDA function:
+    
+    def LDA(arc):
 
-def lda(arc):
-         
-    dictionary = corpora.Dictionary(arc)
-    corpus = [dictionary.doc2bow(text) for text in arc]
-    ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=1, id2word = dictionary, passes=20)
-    a=ldamodel.print_topics(num_words=20)
-    (num,topic)=a[0]
+        dictionary = corpora.Dictionary(arc)
+        
+        corpus = [dictionary.doc2bow(text) for text in arc]
+        
+        ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=1, id2word = dictionary, passes=20)
+        
+        a=ldamodel.print_topics(num_words=20)
+        
+        (num,topic)=a[0]
     
     return topic
 
