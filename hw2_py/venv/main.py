@@ -15,10 +15,11 @@ import string
 import logging
 import unittest
 from preprocessor import *
+from LDApreprocessor import *
 
 
 def main():
-
+    #preprocessing:
     corpus_topics = {}
 
     with open('src/data.txt', 'r') as g:
@@ -38,7 +39,26 @@ def main():
     Corpus = Topics(corpus_topics)
 
     Corpus.generatetopics()
+    
+    #LDA:
+    
+    textlist=[]
+    with open('src/data.txt', 'r') as g:
+        file_list = g.read().split()
 
+        for filename in file_list:
+
+            with open(filename, 'r') as f:
+                larticle = f.read().split()
+
+            LPrep = LDAPreprocessor(larticle)
+
+            Ltexts = LPrep.preprocess()
+            
+            textlist.append(Ltexts)
+            
+    Ltopics=LDA(textlist)
+            
     return None
 
 
