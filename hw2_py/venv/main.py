@@ -81,7 +81,7 @@ def main():
             dic_topic[elem][topic]=dic_topic.get(elem).get(topic)*dic_topic2[topic]
     matrix2=pd.DataFrame.from_dict(dic_topic, orient='index')
             
-    return None
+    return matrix2
 
 
 main()
