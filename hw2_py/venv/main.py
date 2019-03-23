@@ -53,7 +53,7 @@ def main():
 
             LPrep = LDAPreprocessor(larticle)
 
-            Ltexts = LPrep.preprocess()
+            Ltexts = LPrep.LDApreprocess()
             
             textlist.append(Ltexts)
             
