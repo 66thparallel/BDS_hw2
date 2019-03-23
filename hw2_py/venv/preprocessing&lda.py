@@ -69,16 +69,20 @@ class LDAPreprocessor:
         for word in list(self._cleantext):
             new_word = lemmatizer.lemmatize(word)
             lemma_text.append(new_word)
-
+            
+        return lemma_text
 
 
     # LDA function:
-    
-    def LDA(arc):
-
-        dictionary = corpora.Dictionary(arc)
+class LDA:
+    def __init__(self, textlist):
+        self._textlists = textlist
         
-        corpus = [dictionary.doc2bow(text) for text in arc]
+    def LDA(self._textlists):
+
+        dictionary = corpora.Dictionary(self._textlists)
+        
+        corpus = [dictionary.doc2bow(text) for text in self._textlists]
         
         ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=1, id2word = dictionary, passes=20)
         
@@ -94,9 +98,7 @@ class LDAtopics:
 
     def Ltopics(self):
         with open('Ltopics.txt', 'w') as f:
-            for item in self.topics:
+            for item in self._topics:
                 f.write(item)
-
-
 
 
