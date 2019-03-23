@@ -65,8 +65,9 @@ def main():
     
     ldatopic.Ltopics()
     
+    #After comparing the LDA result and Preprocessing result, we finally get the list of topics:
+    ftopics=['bank', 'rate', 'mortgage', 'loan', 'civil aeronautics', 'airline', 'disease', 'takenaka', 'safety', 'minister', 'suspect', 'mouth', 'yen', 'company', 'pilot', 'corporation', 'hoof', 'year', 'civil', 'policy']
     #Generate document matrix
-    ftopics=['bank', 'rate', 'mortgage', 'loan', 'mr', 'airline', 'disease', 'takenaka', 'safety', 'minister', 'percent', 'mouth', 'yen', 'company', 'pilot', 'said', 'hoof', 'year', 'civil', 'policy']
     m=Matrix(ftopics)
     fmatrix=m.matrix()
     #tf-idf
