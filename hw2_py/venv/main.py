@@ -65,6 +65,20 @@ def main():
     
     ldatopic.Ltopics()
     
+    #Generate document matrix
+    ftopics=['bank', 'rate', 'mortgage', 'loan', 'mr', 'airline', 'disease', 'takenaka', 'safety', 'minister', 'percent', 'mouth', 'yen', 'company', 'pilot', 'said', 'hoof', 'year', 'civil', 'policy']
+    m=Matrix(ftopics)
+    fmatrix=m.matrix()
+    #tf-idf
+    t=TF(ftopics)
+    dic_topic,tfmatrix=t.TFmatrix()
+    i=IDF(ftopics)
+    dic_topic2=i.idf()
+    #generate tf-idf matrix
+    for elem in dic_topic:
+        for topic in dic_topic.get(elem):
+            dic_topic[elem][topic]=dic_topic.get(elem).get(topic)*dic_topic2[topic]
+    matrix2=pd.DataFrame.from_dict(dic_topic, orient='index')
             
     return None
 
