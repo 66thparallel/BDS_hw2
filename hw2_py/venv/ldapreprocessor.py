@@ -1,4 +1,3 @@
-
 # coding: utf-8
 
 # In[ ]:
@@ -7,7 +6,6 @@
 Authors Jane Liu and Meng Li
 Classes:
 """
-
 
 # preprocessing:
 import string
@@ -22,7 +20,6 @@ from nltk.stem import WordNetLemmatizer
 
 
 class LDATokenizer:
-
     def __init__(self, text):
         self._text = text
         self._tokenized_doc = []
@@ -31,14 +28,13 @@ class LDATokenizer:
         for item in self._text:
             data = item.split()
             for i in data:
-                i=i.lower()
+                i = i.lower()
                 self._tokenized_doc.append(i)
 
         return self._tokenized_doc
 
 
 class LDAPreprocessor:
-
     def __init__(self, article):
         self._article = article
         self._cleantext = []
@@ -52,8 +48,8 @@ class LDAPreprocessor:
 
         # Remove stop words
         with open('src/stopwords.txt', 'r') as g:
-            stopwords = g.read().splitlines()   
-           
+            stopwords = g.read().splitlines()
+
         for word in list(self._cleantext):
             if word in stopwords:
                 self._cleantext.remove(word)
@@ -69,28 +65,30 @@ class LDAPreprocessor:
         for word in list(self._cleantext):
             new_word = lemmatizer.lemmatize(word)
             lemma_text.append(new_word)
-            
+
         return lemma_text
 
 
-    # LDA function:
+        # LDA function:
+
+
 class LDA:
     def __init__(self, textlist):
         self._textlists = textlist
-        
-    def LDA(self._textlists):
 
+    def get_lda(self):
         dictionary = corpora.Dictionary(self._textlists)
-        
+
         corpus = [dictionary.doc2bow(text) for text in self._textlists]
-        
-        ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=1, id2word = dictionary, passes=20)
-        
-        a=ldamodel.print_topics(num_words=20)
-        
-        (num,topic)=a[0]
-    
-    return topic
+
+        ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=1, id2word=dictionary, passes=20)
+
+        a = ldamodel.print_topics(num_words=20)
+
+        (num, topic) = a[0]
+
+        return topic
+
 
 class LDAtopics:
     def __init__(self, topics):

@@ -16,6 +16,7 @@ import logging
 import unittest
 from preprocessor import *
 from ldapreprocessor import *
+from matrix import *
 
 
 def main():
@@ -59,7 +60,7 @@ def main():
             
     Ltopics=LDA(textlist)
     
-    ltopics=Ltopics.lda()
+    ltopics=Ltopics.get_lda()
     
     ldatopic=LDAtopics(ltopics)
     
