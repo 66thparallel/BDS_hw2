@@ -8,6 +8,7 @@ Classes:
 
 import string
 from preprocessor import *
+from ngrams_docmatrix import *
 from ldapreprocessor import *
 from matrix import *
 from visualization import *
@@ -23,9 +24,13 @@ def main():
 
     Corpus = Topics(corpus_topics)
 
-    Corpus.generatetopics()
+    freq_topics = Corpus.generatetopics()
 
-    # # LDA:
+    Docmatrix = DocTermMatrix(freq_topics)
+
+    doc_matrix = Docmatrix.generatematrix()
+
+    # LDA:
 
     textlist = []
     with open('src/data.txt', 'r') as g:
