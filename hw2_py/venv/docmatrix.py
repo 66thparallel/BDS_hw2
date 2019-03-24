@@ -65,8 +65,8 @@ class DocTermMatrix:
 
         for i in range(cols):
             for j in range(len(doc_matrix)):
-                if num_docs_with_topic[j] > 0:
-                    idf = math.log(num_of_articles / num_docs_with_topic[j])
+                if num_docs_with_topic[i] > 0:
+                    idf = math.log(num_of_articles / num_docs_with_topic[i])
                     doc_matrix[j][i] *= idf
 
         print(doc_matrix)

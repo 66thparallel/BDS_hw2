@@ -185,4 +185,4 @@ class Topics:
 
         print('\n')
 
-        return None
+        return self._results

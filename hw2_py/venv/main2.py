@@ -35,9 +35,9 @@ def main():
 
     Corpus = Topics(corpus_topics)
 
-    Corpus.generatetopics()
+    freq_topics = Corpus.generatetopics()
 
-    Docmatrix = DocTermMatrix(corpus_topics)
+    Docmatrix = DocTermMatrix(freq_topics)
 
     doc_matrix = Docmatrix.generatematrix()
 
