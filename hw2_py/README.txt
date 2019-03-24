@@ -1,6 +1,16 @@
 Homework 2: Descriptive Modeling and Unsupervised Learning of Textual Data
 
 
+Files in Use: (remove before submitting hw)
+main2.py
+preprocessor.py
+docmatrix.py
+kmeans.py
+evaluation.py
+visualization.py
+similarity.py
+
+
 Built with:
 Python 3
 Jupyter IDE
