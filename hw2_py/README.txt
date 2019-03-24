@@ -22,6 +22,7 @@ The following Python libraries are used:
 4. sklearn
 5. matplotlib
 6. pandas
+7. numpy
 
 $ pip install -U <name of library>
 
