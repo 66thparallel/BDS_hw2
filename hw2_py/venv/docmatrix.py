@@ -2,7 +2,9 @@
 """
 Authors Jane Liu and Meng Li
 
-Classes: DocTermMatrix
+Classes:
+    DocTermMatrix:
+        Generates a document term matrix with TF-IDF values.
 
 """
 
