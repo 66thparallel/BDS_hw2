@@ -1,10 +1,13 @@
 # coding: utf-8
-
-# In[ ]:
-
+#!/usr/bin/python3
 """
 Authors Jane Liu and Meng Li
 Classes:
+    LDATokenizer: Tokenizes the text
+    LDAPreprocessor: Cleans and prepares text for preprocessing and LDA.
+    LDA: Gets the corpus of documents and determines the words that appear with the highest frequency
+    LDAtopics: Outputs the results of the LDA algorithm to Ltopics.txt
+
 """
 
 # preprocessing:
