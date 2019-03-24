@@ -3,12 +3,14 @@
 Authors Jane Liu and Meng Li
 
 Classes:
-    Tokenizer: Accepts a list of words and outputs tokenized text.
-    RemoveStopWords: Accepts a list of tokens and removes stop words
-    Preprocessors: Calls Tokenizer, RemoveStopWords, and lemmatizes the text. Applies NER to find proper nounds and
-        replaces individual tokens with proper nounds. Determines 2-grams and 3-grams. Generates topics sorted
+    Tokenizer:
+        Accepts a list of words and outputs tokenized text.
+    RemoveStopWords:
+        Accepts a list of tokens and removes stop words
+    Preprocessor:
+        Calls Tokenizer, RemoveStopWords, and lemmatizes the text. Applies NER to find proper nouns and
+        replaces individual tokens with proper nouns. Determines 2-grams and 3-grams. Generates topics sorted
         by frequency and outputs results to the console and topics.txt.
-
 """
 
 import string
@@ -55,37 +57,15 @@ class RemoveStopWords:
 
         return self._text
 
+class NER_ngrams:
 
-class Preprocessor:
+    def __init__(self, text):
+        self._preprocessed_text = text
 
-    def __init__(self, article):
-        self._article = article
-        self._cleantext = []
-        self._temptext = []
-
-    def preprocess(self):
-
-        # Tokenize the text file
-        self._temptext = Tokenizer(self._article)
-        self._cleantext = self._temptext.tokenize()
-
-        # Remove stop words
-        self._temptext = RemoveStopWords(self._cleantext)
-        self._cleantext = self._temptext.removestopwords()
-
-        # Lemmatize the text
-        lemma_text = []
-        lemmatizer = WordNetLemmatizer()
-
-        for word in list(self._cleantext):
-            new_word = lemmatizer.lemmatize(word)
-            lemma_text.append(new_word)
-
-        preprocessed_text = lemma_text
-
-        # Apply NER to determine proper nouns, like "Microsoft Corporation"
+    def replace_tokens(self):
+        # Apply NER
         nlp = spacy.load('en_core_web_sm')
-        doc = nlp(' '.join(preprocessed_text))  # spaCy requires input text to be in string form
+        doc = nlp(' '.join(self._preprocessed_text))  # spaCy requires input text to be in string form
 
         preprocessed_str = ""
 
@@ -148,11 +128,52 @@ class Preprocessor:
                 count -= 1
         preprocessed_list = preprocessed_str.split() + compound_ner + ngram_words
 
-        # Find the most frequently occuring individual words
-        word_freq = Counter(preprocessed_list)
-        common_words = word_freq.most_common(10)
+        return preprocessed_list
 
-        # Combine the most frequently occuring words with most common n-grams
+class Preprocessor:
+
+    def __init__(self):
+        self._article = []
+        self._cleantext = []
+        self._temptext = []
+        self._preprocessedlist = []
+
+    def preprocess(self):
+
+        with open('src/data.txt', 'r') as g:
+            file_list = g.read().split()
+
+            for filename in file_list:
+                with open(filename, 'r') as f:
+                    self._article = f.read().split()
+
+                    # Tokenize the text file
+                    self._temptext = Tokenizer(self._article)
+                    self._cleantext = self._temptext.tokenize()
+
+                    # Remove stop words
+                    self._temptext = RemoveStopWords(self._cleantext)
+                    self._cleantext = self._temptext.removestopwords()
+
+                    # Lemmatize the text
+                    lemma_text = []
+                    lemmatizer = WordNetLemmatizer()
+
+                    for word in list(self._cleantext):
+                        new_word = lemmatizer.lemmatize(word)
+                        lemma_text.append(new_word)
+
+                    preprocessed_text = lemma_text
+
+                    prep_text = NER_ngrams(preprocessed_text)
+                    prep_list = prep_text.replace_tokens()
+
+                    for word in prep_list:
+                        self._preprocessedlist.append(word)
+
+        # Find the most frequently occuring individual words
+        word_freq = Counter(self._preprocessedlist)
+        common_words = word_freq.most_common(50)
         topics = dict(common_words)
 
         return topics
@@ -171,9 +192,7 @@ class Topics:
             else:
                 self._results[key] = value
 
-        # Get the most frequent topics
-        topic_num = 50
-        self._results = dict(sorted(self._topics.items(), key=operator.itemgetter(1), reverse=True)[:topic_num])
+        self._results = dict(sorted(self._topics.items(), key=operator.itemgetter(1), reverse=True))
 
         with open('topics.txt', 'w') as f:
             for item in self._results.keys():
@@ -182,7 +201,6 @@ class Topics:
                 f.write(str(self._results[item]))
                 f.write('\n')
                 print(item, self._results[item])
+            print('\n')
 
-        print('\n')
-
-        return self._results
+        return self._topics

@@ -3,16 +3,14 @@
 Authors Jane Liu and Meng Li
 
 Classes:
-    main: Loops over every command in input file and calls relevant functions
+    main: Loops over every command in input file and calls relevant functions.
 
-Notes (delete before submitting!!):
-    Set up Preprocessor class. The Preprocessors.preprocess() function needs to remove stop words, tokenize,
-    lemmatize, perform NER, and sliding window. Separate LDA class.
 
 """
 
 import string
 from preprocessor import *
+from docmatrix import *
 from ldapreprocessor import *
 from matrix import *
 from visualization import *
@@ -22,28 +20,20 @@ from kmeans import *
 
 def main():
     #preprocessing:
-    corpus_topics = {}
+    Prep = Preprocessor()
 
-    with open('src/data.txt', 'r') as g:
-        file_list = g.read().split()
-
-        for filename in file_list:
-
-            with open(filename, 'r') as f:
-                article = f.read().split()
-
-            Prep = Preprocessor(article)
-
-            topics = Prep.preprocess()
-
-            corpus_topics.update(topics)
+    corpus_topics = Prep.preprocess()
 
     Corpus = Topics(corpus_topics)
 
-    Corpus.generatetopics()
+    freq_topics = Corpus.generatetopics()
+
+    Docmatrix = DocTermMatrix(freq_topics)
+
+    doc_matrix = Docmatrix.generatematrix()
     
-    #LDA:
-    
+    # #LDA:
+
     textlist=[]
     with open('src/data.txt', 'r') as g:
         file_list = g.read().split()
@@ -56,17 +46,17 @@ def main():
             LPrep = LDAPreprocessor(larticle)
 
             Ltexts = LPrep.LDApreprocess()
-            
+
             textlist.append(Ltexts)
-            
+
     Ltopics=LDA(textlist)
-    
+
     ltopics=Ltopics.get_lda()
-    
+
     ldatopic=LDAtopics(ltopics)
-    
+
     ldatopic.Ltopics()
-    
+
     #comparing the LDA and Prerpocessing we get the final list of topics:
     ftopics=['bank', 'rate', 'mortgage', 'loan', 'civil aeronautics', 'airline', 'disease', 'takenaka', 'safety', 'minister', 'suspect', 'mouth', 'yen', 'company', 'pilot', 'corporation', 'hoof', 'year', 'civil', 'policy']
     #generate document matrix
