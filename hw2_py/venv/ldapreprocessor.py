@@ -12,8 +12,6 @@ Classes:
 
 # preprocessing:
 import string
-import logging
-import unittest
 import gensim
 from gensim import corpora
 from gensim.models.ldamodel import LdaModel
