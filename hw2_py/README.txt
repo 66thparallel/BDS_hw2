@@ -5,6 +5,7 @@ Files in this project:
 main.py
 preprocessor.py
 ldapreprocessor.py
+ngrams_docmatrix.py
 matrix.py
 kmeans.py
 similarity.py
