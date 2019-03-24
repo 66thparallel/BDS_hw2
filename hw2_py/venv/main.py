@@ -12,12 +12,10 @@ Notes (delete before submitting!!):
 """
 
 import string
-import logging
-import unittest
 from preprocessor import *
 from ldapreprocessor import *
 from matrix import *
-from visiualization import *
+from visualization import *
 from evaluation import *
 from kmeans import *
 
