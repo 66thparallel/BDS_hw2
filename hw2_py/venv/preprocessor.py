@@ -172,7 +172,7 @@ class Topics:
                 self._results[key] = value
 
         # Get the most frequent topics
-        topic_num = 20
+        topic_num = 50
         self._results = dict(sorted(self._topics.items(), key=operator.itemgetter(1), reverse=True)[:topic_num])
 
         with open('topics.txt', 'w') as f:
@@ -182,5 +182,7 @@ class Topics:
                 f.write(str(self._results[item]))
                 f.write('\n')
                 print(item, self._results[item])
+
+        print('\n')
 
         return None
