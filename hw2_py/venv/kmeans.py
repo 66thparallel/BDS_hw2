@@ -9,7 +9,7 @@ class kmeans:
                 max_iter=10000,random_state=3425)
         km.fit(self._matrix)
         clusters = km.labels_
-        matrix['cluster']=clusters
-        return matrix
+        self._matrix['cluster']=clusters
+        return self._matrix
    
 
