@@ -33,6 +33,12 @@ $ pip install -U <name of library>
 The spaCy library extension ‘en_core_web_sm’ is also used and can be installed as a package:
 $ python -m spacy download en_core_web_sm
 
+NTLK uses a model called 'wordnet'. It can be installed by entering the Python3 interpreter, importing nltk,
+and installing nltk.download('wordnet'). Then exit the interpreter.
+$ python3
+>>> import nltk
+>>> nltk.download('wordnet')
+
 
 Instructions:
 
